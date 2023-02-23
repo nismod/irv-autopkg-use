@@ -4,13 +4,16 @@ import re
 import requests
 
 
-def aqueduct_rp(filename: str) -> int:
-    """Get return period from aqueduct flood map name"""
-    return int(filename.split("/")[-1].split("_")[-2][-4:])
+def aqueduct_rp(path: str) -> int:
+    """
+    Get return period from aqueduct flood map name, for example:
+    'data/bgd/wri_aqueduct/inuncoast_rcp4p5_wtsub_2050_rp0010_5.tif' -> 10
+    """
+    return int(os.path.basename(path).split("_")[-2][-4:])
 
 
-def download_file(url, file_name):
-    with open(file_name, "wb") as file:
+def download_file(url, file_path):
+    with open(file_path, "wb") as file:
         response = requests.get(url)
         file.write(response.content)
 
