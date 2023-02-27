@@ -81,8 +81,9 @@ def plot_flood_map(
 ) -> None:
     """Overplot a flood map raster with optional network and territory boundary"""
 
-    ppi = 25.4  # pixels per inch
-    f, ax = plt.subplots(figsize=(len(flood_map.x) / ppi, len(flood_map.y) / ppi))
+    aspect_ratio = len(flood_map.y) / len(flood_map.x)
+    x_in = 8
+    f, ax = plt.subplots(figsize=(x_in, x_in * aspect_ratio))
 
     cmap = plt.get_cmap("viridis")
     cmap.set_under("white")
