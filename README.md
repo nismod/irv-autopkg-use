@@ -8,8 +8,6 @@ The irv-autopkg service allows users to extract portions of global datasets
 pertaining to climate risk and resilience. The `irv-autopkg-client` Python
 package is a client API for interacting with the irv-autopkg service.
 
-## Introduction
-
 This repository consists of several Python notebooks and some supporting
 modules. The notebooks demonstrate querying the API for available datasets and
 boundaries. Subsequently, some datasets are visualised and a simple risk
