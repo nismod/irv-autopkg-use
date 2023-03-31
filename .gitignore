@@ -2,5 +2,3 @@
 __pycache__/
 irv-autopkg-client
 data/
-environment.yaml
-todo/

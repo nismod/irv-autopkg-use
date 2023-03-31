@@ -1,0 +1,23 @@
+# to install this environment:
+# conda env create --file environment.yaml
+# or if using micromamba:
+# umamba create -f ./environment.yaml
+name: irv-autopkg
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.11
+  - pip
+  - pip:
+    - irv-autopkg-client         # client API
+    - datapackage                # parsing datapackage objects
+    - nismod-snail               # raster-vector intersections
+  - matplotlib                   # basic plotting
+  - geopandas                    # geospatial dataframes
+  - rasterio                     # raster operations
+  - rioxarray                    # raster operations
+  - ipykernel                    # notebook support
+  - jupyter                      # notebook support
+  - nb_conda_kernels             # notebook support
+  - flake8                       # python linter
