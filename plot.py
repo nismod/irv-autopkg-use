@@ -7,7 +7,9 @@ import xarray as xr
 from utils import aqueduct_rp
 
 
-def plot_aqueduct_flood_depth_distributions(raster_paths: list[str], title: str) -> None:
+def plot_aqueduct_flood_depth_distributions(
+    raster_paths: list[str], title: str
+) -> None:
     """
     Plot distributions of non-zero flood depth for Aqueduct flood maps
     """
@@ -19,7 +21,9 @@ def plot_aqueduct_flood_depth_distributions(raster_paths: list[str], title: str)
     raster_paths: list[str] = sorted(raster_paths, key=aqueduct_rp)
 
     # find the most extreme flood value
-    most_extreme_map: np.ndarray = rioxarray.open_rasterio(raster_paths[-1]).squeeze().values
+    most_extreme_map: np.ndarray = (
+        rioxarray.open_rasterio(raster_paths[-1]).squeeze().values
+    )
     max_depth_all_rp: float = most_extreme_map.max()
 
     # create a set of bins from 0 to this extreme value
@@ -29,7 +33,9 @@ def plot_aqueduct_flood_depth_distributions(raster_paths: list[str], title: str)
     n = len(raster_paths)
     ncols = min([n, 3])
     nrows = (n // ncols) + (n % ncols)
-    f, axes = plt.subplots(nrows=nrows, ncols=ncols, figsize=(16, 2 + 3 * nrows), squeeze=False)
+    f, axes = plt.subplots(
+        nrows=nrows, ncols=ncols, figsize=(16, 2 + 3 * nrows), squeeze=False
+    )
 
     # loop over rows and columns
     max_count = 0
@@ -47,12 +53,16 @@ def plot_aqueduct_flood_depth_distributions(raster_paths: list[str], title: str)
                 arr: np.ndarray = ds.squeeze().values
                 arr = arr[arr > 0]
 
-                counts, _, _ = axes[row, col].hist(arr, bins=bins, alpha=0.5, color='purple')
+                counts, _, _ = axes[row, col].hist(
+                    arr, bins=bins, alpha=0.5, color="purple"
+                )
                 axes[row, col].set_xlim(0, max_depth_all_rp)
 
                 max_count = max([max(counts), max_count])
 
-                axes[row, col].set_title(f"1 in {return_period} year flood", fontsize=10)
+                axes[row, col].set_title(
+                    f"1 in {return_period} year flood", fontsize=10
+                )
                 axes[row, col].grid()
 
             # disable any axes we don't need
@@ -77,7 +87,7 @@ def plot_flood_map(
     title: str,
     flood_map: xr.DataArray,
     network: gpd.GeoDataFrame = None,
-    border: gpd.GeoDataFrame = None
+    border: gpd.GeoDataFrame = None,
 ) -> None:
     """Overplot a flood map raster with optional network and territory boundary"""
 
@@ -88,29 +98,15 @@ def plot_flood_map(
     cmap = plt.get_cmap("viridis")
     cmap.set_under("white")
     img = flood_map.sel(dict(band=1)).plot.imshow(
-        vmin=1E-3,
-        vmax=flood_map.quantile(0.99),
-        cmap=cmap,
-        ax=ax,
-        alpha=0.3
+        vmin=1e-3, vmax=flood_map.quantile(0.99), cmap=cmap, ax=ax, alpha=0.3
     )
     img.colorbar.ax.set_ylabel("Flood depth [meters]")
 
     if border is not None:
-        border.plot(
-            ax=ax,
-            alpha=0.5,
-            ls="--",
-            color="black"
-        )
+        border.plot(ax=ax, alpha=0.5, ls="--", color="black")
 
     if network is not None:
-        network.plot(
-            ax=ax,
-            column="layer",
-            legend=True,
-            alpha=1
-        )
+        network.plot(ax=ax, column="layer", legend=True, alpha=1)
 
     ax.grid()
     ax.set_title(title)

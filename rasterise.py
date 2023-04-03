@@ -38,7 +38,9 @@ def check_raster_grid_consistent(raster_paths: list[str]) -> None:
                     )
 
 
-def split_linestrings(features: gpd.GeoDataFrame, raster: rasterio.io.DatasetReader) -> gpd.GeoDataFrame:
+def split_linestrings(
+    features: gpd.GeoDataFrame, raster: rasterio.io.DatasetReader
+) -> gpd.GeoDataFrame:
     """
     Split feature linestrings on a raster grid
     """
@@ -76,7 +78,9 @@ def cell_indicies_assigner(raster: rasterio.io.DatasetReader) -> Callable:
         """
 
         # integer indicies
-        i, j = get_cell_indicies_of_midpoint(geometry, raster.height, raster.width, raster.transform)
+        i, j = get_cell_indicies_of_midpoint(
+            geometry, raster.height, raster.width, raster.transform
+        )
 
         # die if we're out of bounds somehow
         assert 0 <= i < raster.width
@@ -109,7 +113,7 @@ def raster_lookup(df: pd.DataFrame, fname: str, band_number: int = 1) -> pd.Seri
         band_data: np.ndarray = dataset.read(band_number)
 
         # set non-positive values to NaN
-        band_data[band_data < 1E-6] = np.nan
+        band_data[band_data < 1e-6] = np.nan
 
         # 2D numpy indexing is j, i (i.e. row, column)
         return pd.Series(index=df.index, data=band_data[df["raster_j"], df["raster_i"]])
