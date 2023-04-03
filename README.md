@@ -26,7 +26,14 @@ to create an appropriate Python environment. This should install all the
 necessary dependencies:
 
 ```
-conda env create --file environment.yml
+conda env create --file environment.yaml
+```
+
+If you prefer, the [`mamba`](https://mamba.readthedocs.io/en/latest/user_guide/mamba.html)
+tool is a faster, drop-in replacement for `conda`:
+
+```
+mamba env create --file environment.yaml
 ```
 
 ## Usage
@@ -52,3 +59,11 @@ Subsequent notebooks demonstrate using downloaded data.
 
 Modify the notebooks as you require, or use them as inspiration for writing
 your own scripts.
+
+To avoid saving notebook outputs in git, run:
+
+```
+nbstripout --install
+```
+
+Then `git add` and `git diff` should ignore notebook outputs.
