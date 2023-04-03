@@ -1,6 +1,7 @@
 # irv-autopkg-use
 
-A project exemplifying the `irv-autopkg-client` API.
+A project exemplifying the [`irv-autopkg-client`](https://github.com/nismod/irv-autopkg-client/)
+API, which is currently hosted at [global.infrastructureresilience.org](https://global.infrastructureresilience.org/extract/redoc).
 
 ## Background
 
