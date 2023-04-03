@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 import rasterio
 from snail.core.intersections import split_linestring
-from snail.core.intersections import get_cell_indices as get_cell_indicies_of_midpoint
+from snail.core.intersections import get_cell_indices as get_cell_indices_of_midpoint
 
 
 def check_raster_grid_consistent(raster_paths: list[str]) -> None:
@@ -49,7 +49,7 @@ def split_linestrings(
         raise ValueError("Can only split LineString geometries")
 
     all_splits = []
-    all_indicies = []
+    all_indices = []
     for edge in features.itertuples():
         split_geoms = split_linestring(
             edge.geometry,
@@ -58,18 +58,18 @@ def split_linestrings(
             list(raster.transform),
         )
         all_splits.extend(split_geoms)
-        all_indicies.extend([edge.Index] * len(split_geoms))
+        all_indices.extend([edge.Index] * len(split_geoms))
 
-    return gpd.GeoDataFrame({"original_index": all_indicies, "geometry": all_splits})
+    return gpd.GeoDataFrame({"original_index": all_indices, "geometry": all_splits})
 
 
-def cell_indicies_assigner(raster: rasterio.io.DatasetReader) -> Callable:
+def cell_indices_assigner(raster: rasterio.io.DatasetReader) -> Callable:
     """
     Given an open raster, return a function that can check a geometry against the
-    raster grid and return grid cell indicies for that geometry.
+    raster grid and return grid cell indices for that geometry.
     """
 
-    def cell_indicies_of_split_geometry(geometry, *args, **kwargs) -> pd.Series:
+    def cell_indices_of_split_geometry(geometry, *args, **kwargs) -> pd.Series:
         """
         Given a geometry, find the cell index (i, j) of its midpoint for the
         enclosing raster parameters.
@@ -77,8 +77,8 @@ def cell_indicies_assigner(raster: rasterio.io.DatasetReader) -> Callable:
         N.B. There is no checking whether a geometry spans more than one cell.
         """
 
-        # integer indicies
-        i, j = get_cell_indicies_of_midpoint(
+        # integer indices
+        i, j = get_cell_indices_of_midpoint(
             geometry, raster.height, raster.width, raster.transform
         )
 
@@ -89,17 +89,17 @@ def cell_indicies_assigner(raster: rasterio.io.DatasetReader) -> Callable:
         # return a series with labels so we can unpack neatly into two dataframe columns
         return pd.Series(index=("raster_i", "raster_j"), data=[i, j])
 
-    return cell_indicies_of_split_geometry
+    return cell_indices_of_split_geometry
 
 
 def raster_lookup(df: pd.DataFrame, fname: str, band_number: int = 1) -> pd.Series:
     """
-    For each split geometry, lookup the relevant raster value. Cell indicies
+    For each split geometry, lookup the relevant raster value. Cell indices
     must have been previously calculated and stored as "raster_i" and "raster_j".
 
     Args:
-        df (pd.DataFrame): Table of features, each with cell indicies pertaining
-            to relevant raster pixel. Indicies must be stored under columns with
+        df (pd.DataFrame): Table of features, each with cell indices pertaining
+            to relevant raster pixel. Indices must be stored under columns with
             names referenced by fields.RASTER_I and fields.RASTER_J
         fname (str): Filename of raster file to read data from
         band_number (int): Which band of the raster file to read
