@@ -8,17 +8,18 @@ channels:
   - defaults
 dependencies:
   - python=3.11
+  - flake8 # python linter
+  - geopandas # geospatial dataframes
+  - ipykernel # notebook support
+  - jupyter # notebook support
+  - matplotlib # basic plotting
+  - nb_conda_kernels # notebook support
+  - nbstripout # notebooks in git
+  - rasterio # raster operations
+  - rioxarray # raster operations
+  - tqdm
   - pip
   - pip:
-    - irv-autopkg-client         # client API
-    - datapackage                # parsing datapackage objects
-    - nismod-snail               # raster-vector intersections
-  - matplotlib                   # basic plotting
-  - geopandas                    # geospatial dataframes
-  - rasterio                     # raster operations
-  - rioxarray                    # raster operations
-  - ipykernel                    # notebook support
-  - jupyter                      # notebook support
-  - nb_conda_kernels             # notebook support
-  - nbstripout                   # notebooks in git
-  - flake8                       # python linter
+      - irv-autopkg-client # client API
+      - datapackage # parsing datapackage objects
+      - nismod-snail # raster-vector intersections
