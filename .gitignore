@@ -1,4 +1,7 @@
+.vscode
 .ipynb_checkpoints/
 __pycache__/
 irv-autopkg-client
 data/
+tmp
+senegal_aqueduct
