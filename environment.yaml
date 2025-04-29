@@ -1,11 +1,11 @@
 # to install this environment:
 # conda env create --file environment.yaml
 # or if using micromamba:
-# umamba create -f ./environment.yaml
+# micromamba create -f environment.yaml
 name: irv-autopkg
 channels:
   - conda-forge
-  - defaults
+  - nodefaults
 dependencies:
   - python=3.11
   - pip
